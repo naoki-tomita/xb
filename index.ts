@@ -38,8 +38,6 @@ async function main() {
   await Promise.all(Object.entries(stores).map(([store, { url, selector }]) => scrape(store, url, selector)));
 
   await browser.close();
-
-  setTimeout(main, 60 * 1000);
 }
 
 main();
