@@ -14,6 +14,9 @@ jobs:
     environment: default
 
     runs-on: ubuntu-latest
+    env:
+      SLACK_URL: ${{ secrets.SLACK_URL }}
+
 
     strategy:
       matrix:
