@@ -1,4 +1,4 @@
-import {} from "puppeteer";
+import puppeteer from "puppeteer";
 
 const stores: {
   [key: string]: {
@@ -25,10 +25,10 @@ async function main() {
   async function scrape(name: string, url: string, selector: string) {
     const page = await browser.newPage();
     await page.goto(url);
-    const el = await page.$(selector);
-    const text: string = await (el?.evaluate(it => it.innerText.trim() || it.value) ?? page.$("body").then(it => it?.evaluate(it => it.innerText)));
+    const el = await page.$<HTMLSpanElement & HTMLInputElement>(selector);
+    const text: string = await (el?.evaluate(it => it.innerText.trim() || it.value) ?? page.$<HTMLBodyElement>("body").then(it => it?.evaluate(it => it.innerText)));
     console.log(text)
-    fetch(Deno.env.get("SLACK_URL") ?? "", {
+    fetch(process.env.SLACK_URL ?? "", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ text: `${name} ---> ${text}` })
