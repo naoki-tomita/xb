@@ -1,0 +1,14 @@
+{
+  "name": "xb",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:naoki-tomita/xb.git",
+  "author": "Naoki Tomita🐱 <mxcpy608@hotmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@types/puppeteer": "^5.4.4",
+    "puppeteer": "^10.1.0",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
+  }
+}

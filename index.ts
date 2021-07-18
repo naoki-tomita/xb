@@ -1,4 +1,4 @@
-import puppeteer from "https://deno.land/x/puppeteer@9.0.1/mod.ts";
+import {} from "puppeteer";
 
 const stores: {
   [key: string]: {
