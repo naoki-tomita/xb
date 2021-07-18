@@ -28,7 +28,7 @@ async function main() {
     const el = await page.$(selector);
     const text: string = await (el?.evaluate(it => it.innerText.trim() || it.value) ?? page.$("body").then(it => it?.evaluate(it => it.innerText)));
     console.log(text)
-    fetch("", {
+    fetch(Deno.env.get("SLACK_URL") ?? "", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ text: `${name} ---> ${text}` })
