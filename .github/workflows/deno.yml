@@ -34,7 +34,7 @@ jobs:
           deno-version: ${{ matrix.deno }} # tests across multiple Deno versions
 
       - name: Cache dependencies
-        run: deno cache index.ts
+        run: make cache
 
       - name: Install chrome
         run: PUPPETEER_PRODUCT=chrome deno run -A --unstable https://deno.land/x/puppeteer@9.0.1/install.ts
