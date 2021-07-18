@@ -1,4 +1,5 @@
 import puppeteer from "puppeteer";
+import fetch from "node-fetch";
 
 const stores: {
   [key: string]: {
@@ -26,7 +27,7 @@ async function main() {
     const page = await browser.newPage();
     await page.goto(url);
     const el = await page.$<HTMLSpanElement & HTMLInputElement>(selector);
-    const text: string = await (el?.evaluate(it => it.innerText.trim() || it.value) ?? page.$<HTMLBodyElement>("body").then(it => it?.evaluate(it => it.innerText)));
+    const text = await (el?.evaluate(it => it.innerText.trim() || it.value) ?? page.$<HTMLBodyElement>("body").then(it => it?.evaluate(it => it.innerText || "none")));
     console.log(text)
     fetch(process.env.SLACK_URL ?? "", {
       method: "POST",
