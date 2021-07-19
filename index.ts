@@ -3,40 +3,48 @@ import fetch from "node-fetch";
 
 const stores: {
   [key: string]: {
-    url: string; selector: string;
+    url: string;
+    selector: string;
+    expectedText: string;
   }
 } = {
   amazon: {
     url: "https://www.amazon.co.jp/dp/B08GGKZ34Z",
     selector: "#availability",
+    expectedText: `Currently unavailable.
+Click here for details of availability.
+We don't know when or if this item will be back in stock.`,
   },
   yodobashi: {
     url: "https://www.yodobashi.com/product-detail/100000001005829435/",
-    selector: ".salesInfo"
+    selector: ".salesInfo",
+    expectedText: "予定数の販売を終了しました",
   },
   sofmap: {
     url: "https://a.sofmap.com/product_detail.aspx?sku=21309019",
-    selector: ".button.cart"
+    selector: ".button.cart",
+    expectedText: "完売御礼",
   }
 }
 
 async function main() {
   const browser = await puppeteer.launch({ headless: false });
 
-  async function scrape(name: string, url: string, selector: string) {
+  async function scrape(name: string, url: string, selector: string, expectedText: string) {
     const page = await browser.newPage();
     await page.goto(url);
     const el = await page.$<HTMLSpanElement & HTMLInputElement>(selector);
     const text = await (el?.evaluate(it => it.innerText.trim() || it.value) ?? page.$<HTMLBodyElement>("body").then(it => it?.evaluate(it => it.innerText || "none")));
-    console.log(text)
-    fetch(process.env.SLACK_URL ?? "", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ text: `${name} ---> ${text}` })
-    });
+    if (text?.trim().includes(expectedText)) {
+      fetch(process.env.SLACK_URL ?? "", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ text: `${name} ---> ${text?.trim()}` })
+      });
+    }
   }
 
-  await Promise.all(Object.entries(stores).map(([store, { url, selector }]) => scrape(store, url, selector)));
+  await Promise.all(Object.entries(stores).map(([store, { url, selector, expectedText }]) => scrape(store, url, selector, expectedText)));
 
   await browser.close();
 }
