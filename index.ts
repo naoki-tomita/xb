@@ -35,7 +35,7 @@ async function main() {
     await page.goto(url);
     const el = await page.$<HTMLSpanElement & HTMLInputElement>(selector);
     const text = await (el?.evaluate(it => it.innerText.trim() || it.value) ?? page.$<HTMLBodyElement>("body").then(it => it?.evaluate(it => it.innerText || "none")));
-    if (text?.trim().includes(expectedText)) {
+    if (!text?.trim().includes(expectedText)) {
       fetch(process.env.SLACK_URL ?? "", {
         method: "POST",
         headers: { "content-type": "application/json" },
