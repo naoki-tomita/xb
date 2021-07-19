@@ -11,9 +11,7 @@ const stores: {
   amazon: {
     url: "https://www.amazon.co.jp/dp/B08GGKZ34Z",
     selector: "#availability",
-    expectedText: `Currently unavailable.
-Click here for details of availability.
-We don't know when or if this item will be back in stock.`,
+    expectedText: `Currently unavailable.`,
   },
   yodobashi: {
     url: "https://www.yodobashi.com/product-detail/100000001005829435/",
