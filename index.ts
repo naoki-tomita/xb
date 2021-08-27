@@ -21,7 +21,7 @@ const stores: {
   sofmap: {
     url: "https://a.sofmap.com/product_detail.aspx?sku=21309019",
     selector: ".button.cart",
-    expectedText: "完売御礼",
+    expectedText: "注文不可",
   }
 }
 
