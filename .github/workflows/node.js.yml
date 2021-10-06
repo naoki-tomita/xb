@@ -38,3 +38,6 @@ jobs:
       uses: GabrielBB/xvfb-action@v1
       with:
         run: yarn start
+
+    - name: Create dir
+      run: mkdir -rf /home/runner/.npm
