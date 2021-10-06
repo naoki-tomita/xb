@@ -5,7 +5,7 @@ name: Node.js CI
 
 on:
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '*/5 * * * *'
 
 jobs:
   build:
@@ -40,4 +40,4 @@ jobs:
         run: yarn start
 
     - name: Create dir
-      run: mkdir -rf /home/runner/.npm
+      run: mkdir -p /home/runner/.npm
