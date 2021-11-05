@@ -22,6 +22,16 @@ const stores: {
     url: "https://a.sofmap.com/product_detail.aspx?sku=21309019",
     selector: ".button.cart",
     expectedText: "注文不可",
+  },
+  microsoft: {
+    url: "https://www.microsoft.com/ja-jp/store/collections/xboxconsoles/pc?icid=Xbox_QL1_XboxConsoles_070920",
+    selector: "#productplacementlist_1 > strong",
+    expectedText: "在庫なし"
+  },
+  rakuten: {
+    url: "https://books.rakuten.co.jp/rb/16465627/?bkts=1&l-id=search-c-item-text-08",
+    selector: ".status-text",
+    expectedText: "ご注文できない商品"
   }
 }
 
@@ -33,13 +43,14 @@ async function main() {
     await page.goto(url);
     const el = await page.$<HTMLSpanElement & HTMLInputElement>(selector);
     const text = await (el?.evaluate(it => it.innerText.trim() || it.value) ?? page.$<HTMLBodyElement>("body").then(it => it?.evaluate(it => it.innerText || "none")));
-    console.log(text);
+    console.log(name, text);
     if (!text?.trim().includes(expectedText)) {
-      fetch(process.env.SLACK_URL ?? "", {
+      console.log(name, expectedText, text);
+      await fetch(process.env.SLACK_URL ?? "", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ text: `${name} ---> ${text?.trim()}` })
-      });
+      }).catch(e => console.error(e));
     }
   }
 
