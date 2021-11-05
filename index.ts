@@ -28,6 +28,11 @@ const stores: {
     selector: "#productplacementlist_1 > strong",
     expectedText: "在庫なし"
   },
+  microsoft2: {
+    url: "https://www.microsoft.com/ja-jp/store/configure/Xbox-Series-X/8WJ714N3RBTL",
+    selector: ".oosbadge",
+    expectedText: "在庫なし"
+  },
   rakuten: {
     url: "https://books.rakuten.co.jp/rb/16465627/?bkts=1&l-id=search-c-item-text-08",
     selector: ".status-text",
@@ -45,7 +50,6 @@ async function main() {
     const text = await (el?.evaluate(it => it.innerText.trim() || it.value) ?? page.$<HTMLBodyElement>("body").then(it => it?.evaluate(it => it.innerText || "none")));
     console.log(name, text);
     if (!text?.trim().includes(expectedText)) {
-      console.log(name, expectedText, text);
       await fetch(process.env.SLACK_URL ?? "", {
         method: "POST",
         headers: { "content-type": "application/json" },
