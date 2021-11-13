@@ -11,7 +11,7 @@ const stores: {
   amazon: {
     url: "https://www.amazon.co.jp/dp/B08GGKZ34Z",
     selector: "#availability",
-    expectedText: `Currently unavailable.`,
+    expectedText: `この商品は現在お取り扱いできません。`,
   },
   yodobashi: {
     url: "https://www.yodobashi.com/product-detail/100000001005829435/",
@@ -52,7 +52,7 @@ async function waitFor(pred: () => Promise<boolean>, timeout: number = 20000) {
 }
 
 async function main() {
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: false, args: ['--lang=ja-JP'] });
   async function scrape(name: string, url: string, selector: string, expectedText: string) {
     const page = await browser.newPage();
     await page.goto(url);
@@ -60,12 +60,11 @@ async function main() {
 
     await waitFor(async () => {
       const text = await (el?.evaluate(it => it.innerText.trim() || it.value));
-      console.log(text);
       return text?.trim().includes(expectedText) ?? false;
     });
 
     const text = await (el?.evaluate(it => it.innerText.trim() || it.value) ?? page.$<HTMLBodyElement>("body").then(it => it?.evaluate(it => it.innerText || "none")));
-    console.log(name, text);
+    console.log(name, text, expectedText);
     if (!text?.trim().includes(expectedText)) {
       await fetch(process.env.SLACK_URL ?? "", {
         method: "POST",
@@ -75,9 +74,12 @@ async function main() {
     }
   }
 
-  await Promise.all(Object.entries(stores).map(([store, { url, selector, expectedText }]) => scrape(store, url, selector, expectedText)));
+  try {
+    await Promise.all(Object.entries(stores).map(([store, { url, selector, expectedText }]) => scrape(store, url, selector, expectedText)));
+  } finally {
+    await browser.close();
+  }
 
-  await browser.close();
 }
 
 main();
