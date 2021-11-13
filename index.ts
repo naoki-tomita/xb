@@ -69,7 +69,7 @@ async function main() {
       await fetch(process.env.SLACK_URL ?? "", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ text: `${name} ---> ${text?.trim()}` })
+        body: JSON.stringify({ text: `${name} ---> ${text?.trim().substr(0, 80)}` })
       }).catch(e => console.error(e));
     }
   }
