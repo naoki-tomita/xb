@@ -23,16 +23,16 @@ const stores: {
     selector: ".button.cart",
     expectedText: "注文不可",
   },
-  microsoft: {
-    url: "https://www.microsoft.com/ja-jp/store/collections/xboxconsoles/pc?icid=Xbox_QL1_XboxConsoles_070920",
-    selector: "#productplacementlist_1 > strong",
-    expectedText: "在庫なし"
-  },
-  microsoft2: {
-    url: "https://www.microsoft.com/ja-jp/store/configure/Xbox-Series-X/8WJ714N3RBTL",
-    selector: ".oosbadge",
-    expectedText: "在庫なし"
-  },
+  // microsoft: {
+  //   url: "https://www.microsoft.com/ja-jp/store/collections/xboxconsoles/pc?icid=Xbox_QL1_XboxConsoles_070920",
+  //   selector: "#productplacementlist_1 > strong",
+  //   expectedText: "在庫なし"
+  // },
+  // microsoft2: {
+  //   url: "https://www.microsoft.com/ja-jp/store/configure/Xbox-Series-X/8WJ714N3RBTL",
+  //   selector: ".oosbadge",
+  //   expectedText: "在庫なし"
+  // },
   rakuten: {
     url: "https://books.rakuten.co.jp/rb/16465627/?bkts=1&l-id=search-c-item-text-08",
     selector: ".status-text",
