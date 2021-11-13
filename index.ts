@@ -11,7 +11,7 @@ const stores: {
   amazon: {
     url: "https://www.amazon.co.jp/dp/B08GGKZ34Z",
     selector: "#availability",
-    expectedText: `この商品は現在お取り扱いできません。`,
+    expectedText: `Currentry unavailable`,
   },
   yodobashi: {
     url: "https://www.yodobashi.com/product-detail/100000001005829435/",
