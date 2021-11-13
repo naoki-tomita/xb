@@ -40,13 +40,30 @@ const stores: {
   }
 }
 
+function sleep(time: number) {
+  return new Promise(ok => setTimeout(ok, time));
+}
+
+async function waitFor(pred: () => Promise<boolean>, timeout: number = 20000) {
+  for (let i = 0; i < timeout / 100; i++) {
+    if (await pred()) break;
+    await sleep(100);
+  }
+}
+
 async function main() {
   const browser = await puppeteer.launch({ headless: false });
-
   async function scrape(name: string, url: string, selector: string, expectedText: string) {
     const page = await browser.newPage();
     await page.goto(url);
     const el = await page.$<HTMLSpanElement & HTMLInputElement>(selector);
+
+    await waitFor(async () => {
+      const text = await (el?.evaluate(it => it.innerText.trim() || it.value));
+      console.log(text);
+      return text?.trim().includes(expectedText) ?? false;
+    });
+
     const text = await (el?.evaluate(it => it.innerText.trim() || it.value) ?? page.$<HTMLBodyElement>("body").then(it => it?.evaluate(it => it.innerText || "none")));
     console.log(name, text);
     if (!text?.trim().includes(expectedText)) {
