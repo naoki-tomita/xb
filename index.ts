@@ -21,7 +21,7 @@ const stores: {
   sofmap: {
     url: "https://a.sofmap.com/product_detail.aspx?sku=21309019",
     selector: ".button.cart",
-    expectedText: "注文不可",
+    expectedText: "完売御礼",
   },
   // microsoft: {
   //   url: "https://www.microsoft.com/ja-jp/store/collections/xboxconsoles/pc?icid=Xbox_QL1_XboxConsoles_070920",
