@@ -13,11 +13,11 @@ const stores: {
     selector: "#availability",
     expectedText: `Currently unavailable`,
   },
-  yodobashi: {
-    url: "https://www.yodobashi.com/product-detail/100000001005829435/",
-    selector: ".salesInfo",
-    expectedText: "予定数の販売を終了しました",
-  },
+//   yodobashi: {
+//     url: "https://www.yodobashi.com/product-detail/100000001005829435/",
+//     selector: ".salesInfo",
+//     expectedText: "予定数の販売を終了しました",
+//   },
   sofmap: {
     url: "https://a.sofmap.com/product_detail.aspx?sku=21309019",
     selector: ".button.cart",
